@@ -7,8 +7,8 @@
     <title>menyoo: Development Edition</title>
 </svelte:head>
 
-<div class="container mx-auto py-4 bg-secondary-light">
-    <a href="/" class="bg-transparent p-0 text-black"
+<div class="container mx-auto py-4 bg-black">
+    <a href="/" class="bg-transparent p-0 text-white"
         ><h1 class="text-4xl text-center font-bold">menyoo_</h1></a
     >
 </div>

@@ -14,13 +14,19 @@ const api = express();
 api.use(express.json());
 
 const apiEndpoints = {
-    items: '/items',
-    vendors: '/vendors',
-    admin: {
-        register: '/admin/new',
-        superuser: '/admin/superuser',
-        login: '/admin/login',
+    public: {
+        items: '/public/items',
+        vendors: '/public/vendors',
     },
+    private: {
+        items: '/private/items',
+        vendors: '/private/vendors',
+        admin: {
+            register: '/private/admin/new',
+            superuser: '/private/admin/superuser',
+            login: '/private/admin/login',
+        },
+    }
 };
 
 async function refresh() {
@@ -43,7 +49,7 @@ async function refresh() {
     return responseArray;
 }
 
-api.get(apiEndpoints.items, async (req, res) => {
+api.get(apiEndpoints.public.items, async (req, res) => {
     let responseBody;
     let stat = 200;
 
@@ -73,7 +79,7 @@ api.get(apiEndpoints.items, async (req, res) => {
         res.status(stat).json(responseBody);
     }
 });
-api.post(apiEndpoints.items, verifyToken, async (req, res) => {
+api.post(apiEndpoints.private.items, verifyToken, async (req, res) => {
     let responseBody;
 
     try {
@@ -102,7 +108,7 @@ api.post(apiEndpoints.items, verifyToken, async (req, res) => {
         res.json(responseBody);
     }
 });
-api.put(apiEndpoints.items, verifyToken, async (req, res) => {
+api.put(apiEndpoints.private.items, verifyToken, async (req, res) => {
     let responseBody;
 
     try {
@@ -120,7 +126,7 @@ api.put(apiEndpoints.items, verifyToken, async (req, res) => {
         res.json(responseBody);
     }
 });
-api.delete(apiEndpoints.items, verifyToken, async (req, res) => {
+api.delete(apiEndpoints.private.items, verifyToken, async (req, res) => {
     let responseBody;
     let responseArray = [];
 
@@ -147,7 +153,21 @@ api.delete(apiEndpoints.items, verifyToken, async (req, res) => {
     }
 });
 
-api.get(apiEndpoints.vendors, verifyToken, async (req, res) => {
+api.get(apiEndpoints.public.vendors, async (req, res) => {
+    let responseBody;
+    let stat = 200;
+
+    try {
+        responseBody = await Vendor.findById(req.headers['z-vendor-id']).lean();
+    } catch (e) {
+        responseBody = { error: e };
+        stat = 400;
+        throw e;
+    } finally {
+        res.status(stat).json(responseBody);
+    }
+});
+api.get(apiEndpoints.private.vendors, verifyToken, async (req, res) => {
     let responseBody;
     let stat = 200;
 
@@ -161,7 +181,7 @@ api.get(apiEndpoints.vendors, verifyToken, async (req, res) => {
         res.status(stat).json(responseBody);
     }
 });
-api.put(apiEndpoints.vendors, verifyToken, async (req, res) => {
+api.put(apiEndpoints.private.vendors, verifyToken, async (req, res) => {
     let responseBody;
 
     try {
@@ -175,7 +195,7 @@ api.put(apiEndpoints.vendors, verifyToken, async (req, res) => {
         res.json(responseBody);
     }
 });
-api.delete(apiEndpoints.vendors, verifyToken, async (req, res) => {
+api.delete(apiEndpoints.private.vendors, verifyToken, async (req, res) => {
     let responseBody;
 
     try {
@@ -197,7 +217,7 @@ api.delete(apiEndpoints.vendors, verifyToken, async (req, res) => {
     }
 });
 
-api.post(apiEndpoints.admin.register, async (req, res) => {
+api.post(apiEndpoints.private.admin.register, async (req, res) => {
     let responseBody;
     let stat = 200;
 
@@ -247,7 +267,7 @@ api.post(apiEndpoints.admin.register, async (req, res) => {
         res.status(stat).json(responseBody);
     }
 });
-api.post(apiEndpoints.admin.superuser, async (req, res) => {
+api.post(apiEndpoints.private.admin.superuser, async (req, res) => {
     let responseBody;
     let stat = 200;
 
@@ -299,7 +319,7 @@ api.post(apiEndpoints.admin.superuser, async (req, res) => {
         res.status(stat).json(responseBody);
     }
 });
-api.post(apiEndpoints.admin.login, async (req, res) => {
+api.post(apiEndpoints.private.admin.login, async (req, res) => {
     let responseBody;
     let stat = 200;
 

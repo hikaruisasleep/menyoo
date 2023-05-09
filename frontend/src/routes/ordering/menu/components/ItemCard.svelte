@@ -1,41 +1,76 @@
 <script lang="ts">
-	export let item: any;
-	export let editable = false;
-	export let itemType = translateItemType(item.type);
+    export let item: any;
 
-	function translateItemType(type: boolean) {
-		let itemType: string;
-		switch (type) {
-			case true:
-				itemType = 'food';
-				break;
-			case false:
-				itemType = 'drinks';
-				break;
-		}
-		return itemType;
-	}
+    export let containerType: string;
+
+    let widthManagement = {
+        horizontalScroll: false,
+        classicCardLayout: false,
+    };
+
+    switch (containerType) {
+        case 'horizontalScroll':
+            widthManagement.horizontalScroll = true;
+            break;
+        case 'classicCards':
+            widthManagement.classicCardLayout = true;
+            break;
+    }
 </script>
 
 <div
-	class="container bg-darkgrey max-w-[25%] aspect-[2/3] rounded border border-solid border-black mx-1"
+    class="scroll-child container bg-darkgrey min-w-max aspect-[3/2] rounded border border-solid border-black m-0"
+    class:w-96={widthManagement.horizontalScroll}
+    class:max-w-full={widthManagement.classicCardLayout}
 >
-	{#if editable}
-		<p class="text-ellipsis">{item._id}</p>
-	{/if}
-
-	<div class="text-center">
-		<p class="text-lg text-black">{item.name}</p>
-		<p class="text-base text-grey">{itemType}</p>
-		<p class="text-xs text-grey">{item.description}</p>
-		<p class="text-lg text-white">{item.price.toString().substr(0, 2)}K</p>
-	</div>
-
-	{#if editable}
-		<form action="?/edit" method="post">
-			<a href="/admin/edit?mode=edit&id={item._id}">
-				<i class="fa-solid fa-pencil" class:hidden={!editable} />
-			</a>
-		</form>
-	{/if}
+    <div class="grid grid-cols-5 grid-rows-4 w-full h-full">
+        <div class="col-start-1 row-start-3 col-span-2">
+            <p
+                class="w-full h-full text-lg text-black font-bold leading-tight flex flex-auto justify-start items-center"
+            >
+                {item.name}
+            </p>
+        </div>
+        <div class="col-start-3 row-start-3 col-span-3">
+            <p
+                class="w-full h-full text-sm text-black leading-tight flex flex-auto justify-end items-center"
+            >
+                {item.vendor_name}
+            </p>
+        </div>
+        <div class="col-start-1 row-start-4 col-span-3">
+            <p
+                class="w-full h-full text-sm text-black leading-tight flex flex-auto justify-start items-start truncate"
+            >
+                {item.description}
+            </p>
+        </div>
+        <div class="col-start-5 row-start-1 col-span-1">
+            <p
+                class="w-full h-full text-2xs text-black leading-tight flex flex-auto justify-center items-center"
+            >
+                {#if item.type}
+                    <i class="fa-solid fa-pot-food" />
+                {:else if !item.type}
+                    <i class="fa-solid fa-wine-glass" />
+                {:else}
+                    <i class="fa-solid fa-exclamation" />
+                {/if}
+            </p>
+        </div>
+        <div class=" col-start-5 row-start-4 col-span-1">
+            <p
+                class="w-full h-full text-lg text-black leading-tight flex flex-auto justify-center items-center"
+            >
+                {item.price.toString().slice(0, -3)}K
+            </p>
+        </div>
+    </div>
 </div>
+
+<style lang="scss">
+    .scroll-child {
+        scroll-snap-align: start;
+        background-color: $secondary-light;
+    }
+</style>
