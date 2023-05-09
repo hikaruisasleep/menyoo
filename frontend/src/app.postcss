@@ -1,0 +1,29 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	body {
+		@apply bg-white;
+	}
+
+	p {
+		@apply text-black;
+	}
+
+	a {
+		@apply text-white;
+		@apply p-2;
+		@apply bg-primary-light;
+		@apply rounded-lg;
+	}
+
+	form > button {
+		@apply my-4;
+		@apply p-2;
+		@apply rounded-lg;
+		@apply bg-primary-light;
+		@apply text-white;
+	}
+}
