@@ -158,7 +158,14 @@ api.get(apiEndpoints.public.vendors, async (req, res) => {
     let stat = 200;
 
     try {
-        responseBody = await Vendor.findById(req.headers['z-vendor-id']).lean();
+        switch (req.headers['z-request-type']) {
+            case 'all':
+                responseBody = await Vendor.find({}).lean();
+                break;
+            case 'one':
+                responseBody = await Vendor.findById(req.headers['z-vendor-id']).lean();
+                break
+        }
     } catch (e) {
         responseBody = { error: e };
         stat = 400;

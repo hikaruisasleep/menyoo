@@ -6,8 +6,10 @@
     export let data: PageData;
     let hidden = true;
 
-    let showSelected = false;
-    let itemTypeSelector = true;
+    let filters = {
+        showSelected: false,
+        itemTypeSelector: true,
+    };
 </script>
 
 <div class="container flex flex-1 flex-col">
@@ -32,7 +34,7 @@
                     type="checkbox"
                     name="type"
                     class="flex-initial text-lg mx-2"
-                    bind:checked={showSelected}
+                    bind:checked={filters.showSelected}
                 />
             </label>
             <label for="item-type" class="flex flex-row py-1">
@@ -40,7 +42,7 @@
                 <input
                     type="checkbox"
                     name="type"
-                    bind:checked={itemTypeSelector}
+                    bind:checked={filters.itemTypeSelector}
                     class="flex-initial text-lg mx-2"
                 />
             </label>
@@ -49,5 +51,5 @@
 
     <hr />
 
-    <Cards {data} {itemTypeSelector} />
+    <Cards {data} {filters} />
 </div>

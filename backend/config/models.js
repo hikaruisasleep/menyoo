@@ -16,6 +16,9 @@ const VendorSchema = new mongoose.Schema({
     name: String,
     location: { type: String, unique: true },
     password: String,
+    type: Boolean,
+    description: String,
+    tags: [{type: mongoose.Schema.Types.String}],
     token: String,
     menu_items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
 });

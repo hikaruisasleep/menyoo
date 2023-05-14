@@ -2,24 +2,21 @@
     import type { PageData } from '../$types';
 
     export let data: PageData;
-    export let showSelected: boolean;
-    export let itemTypeSelector: boolean;
+    export let filters: { [x: string]: any };
 
-    let containerType = 'classicCards';
-
-    import ItemCard from './ItemCard.svelte';
+    import VendorCard from './VendorCard.svelte';
 </script>
 
-<div class="container grid grid-flow-row grid-cols-2 w-[90vw] gap-2">
-    {#each data.items as item (item._id)}
-        {#if showSelected}
-            {#key itemTypeSelector}
-                {#if itemTypeSelector == item.type}
-                    <ItemCard {item} {containerType} />
+<div class="container grid grid-flow-row grid-cols-2 gap-2">
+    {#each data.vendors as vendor (vendor._id)}
+        {#if filters.showSelected}
+            {#key filters.itemTypeSelector}
+                {#if filters.itemTypeSelector == vendor.type}
+                    <VendorCard {vendor} />
                 {/if}
             {/key}
         {:else}
-            <ItemCard {item} {containerType} />
+            <VendorCard {vendor} />
         {/if}
     {/each}
 </div>

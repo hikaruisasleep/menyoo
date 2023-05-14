@@ -32,6 +32,15 @@ export async function getAllItems() {
     });
 }
 
+export async function getAllVendors() {
+    return await fetch(`${externApiUri}/public/vendors`, {
+        method: 'GET',
+        headers: {
+            'z-request-type': 'all',
+        },
+    });
+}
+
 export async function getItemsByVendor(vendor_id: string) {
     return await fetch(`${externApiUri}/public/items`, {
         method: 'GET',
@@ -46,6 +55,7 @@ export async function getVendorNameFromID(vendor_id: string) {
     return await fetch(`${externApiUri}/public/vendors`, {
         method: 'GET',
         headers: {
+            'z-request-type': 'one',
             'z-vendor-id': vendor_id,
         },
     });
