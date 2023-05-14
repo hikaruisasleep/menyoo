@@ -1,4 +1,4 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad } from './(menu)/$types';
 import * as api from '$lib/server/api';
 
 async function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => Promise<T>): Promise<any[]> {

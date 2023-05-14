@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from './$types';
-    import ClassicCards from './components/ClassicCards.svelte';
-    import HorizontalScroll from './components/HorizontalScroll.svelte';
+
+    import Cards from './components/Cards.svelte';
 
     export let data: PageData;
     let hidden = true;
@@ -47,7 +47,7 @@
         </form>
     </div>
 
-    <HorizontalScroll {data} {showSelected} {itemTypeSelector} />
     <hr />
-    <ClassicCards {data} {showSelected} {itemTypeSelector} />
+
+    <Cards {data} {itemTypeSelector} />
 </div>

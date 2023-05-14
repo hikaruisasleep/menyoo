@@ -2,26 +2,10 @@
     export let item: any;
 
     export let containerType: string;
-
-    let widthManagement = {
-        horizontalScroll: false,
-        classicCardLayout: false,
-    };
-
-    switch (containerType) {
-        case 'horizontalScroll':
-            widthManagement.horizontalScroll = true;
-            break;
-        case 'classicCards':
-            widthManagement.classicCardLayout = true;
-            break;
-    }
 </script>
 
 <div
-    class="scroll-child container bg-darkgrey min-w-max aspect-[3/2] rounded border border-solid border-black m-0"
-    class:w-96={widthManagement.horizontalScroll}
-    class:max-w-full={widthManagement.classicCardLayout}
+    class="scroll-child container bg-darkgrey min-w-max aspect-[3/2] rounded border border-solid border-black m-0 lg:w-96 max-w-full"
 >
     <div class="grid grid-cols-5 grid-rows-4 w-full h-full">
         <div class="col-start-1 row-start-3 col-span-2">
