@@ -14,42 +14,20 @@
 
 <div class="container flex flex-1 flex-col">
     <div class="filter grid grid-cols-10 my-2">
-        <form action="get" class="col-span-9">
+        <form action="get" class="col-span-10 row-span-1 max-h-min flex flex-initial">
             <input
                 type="search"
                 name="search"
-                placeholder="What do you want to eat today?"
-                class="text-lg w-full"
+                placeholder="Mau makan apa hari ini?"
+                class="text-lg w-full px-2"
             />
-        </form>
-        <i
-            class="fa-solid fa-filter fa-xl h-4"
-            on:click={() => (hidden = !hidden)}
-            on:keypress={() => (hidden = !hidden)}
-        />
-        <form action="get" class:hidden class="col-span-10">
-            <label for="sort-by-type" class="flex flex-row py-1">
-                <p class="flex-initial text-sm mx">Only show selected item type</p>
-                <input
-                    type="checkbox"
-                    name="type"
-                    class="flex-initial text-lg mx-2"
-                    bind:checked={filters.showSelected}
-                />
-            </label>
-            <label for="item-type" class="flex flex-row py-1">
-                <p class="flex-initial text-sm mx">Food/Drink</p>
-                <input
-                    type="checkbox"
-                    name="type"
-                    bind:checked={filters.itemTypeSelector}
-                    class="flex-initial text-lg mx-2"
-                />
-            </label>
+            <button type="button" class="my-0 ml-2">
+                <i class="fa-solid fa-search fa-xl h-4 col-start-10 row-start-1" />
+            </button>
         </form>
     </div>
 
     <hr />
 
-    <Cards {data} {filters} />
+    <Cards {data} />
 </div>
