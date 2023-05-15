@@ -25,6 +25,7 @@ const apiEndpoints = {
             register: '/private/admin/new',
             superuser: '/private/admin/superuser',
             login: '/private/admin/login',
+            updatePass: '/private/admin/password',
         },
     }
 };
@@ -229,7 +230,7 @@ api.post(apiEndpoints.private.admin.register, async (req, res) => {
     let stat = 200;
 
     try {
-        let { name, location, password } = req.body;
+        let { name, location, password, type, description, tags } = req.body;
 
         if (!name) {
             throw 'Name cannot be empty';
@@ -249,7 +250,10 @@ api.post(apiEndpoints.private.admin.register, async (req, res) => {
             name: name,
             location: location.toUpperCase(),
             password: encryptedPassword,
-            test_object: req.body.test,
+            type: type,
+            description: description,
+            tags: tags,
+            test_object: true,
         });
 
         await v.save();
@@ -258,7 +262,7 @@ api.post(apiEndpoints.private.admin.register, async (req, res) => {
             { user_id: v._id, location },
             process.env.USERAUTHTOKENKEY,
             {
-                expiresIn: JWT_EXPIRATIONPERIOD,
+                expiresIn: process.env.JWT_EXPIRATIONPERIOD,
             }
         );
 
@@ -369,5 +373,26 @@ api.post(apiEndpoints.private.admin.login, async (req, res) => {
         res.status(stat).json(responseBody);
     }
 });
+api.put(apiEndpoints.private.admin.updatePass, verifyToken, async (req, res) => {
+    let responseBody;
+    let stat = 200;
+
+    try {
+        let { pw } = req.body;
+
+        let encryptedPassword = await bcrypt.hash(pw, 10);
+
+        responseBody = await Vendor.findByIdAndUpdate(
+            req.user.user_id,
+            {password: encryptedPassword}
+        );
+    } catch (e) {
+        responseBody = { error: e.toString() };
+        stat = 400;
+    } finally {
+        res.status(stat).json(responseBody);
+    }
+});
+
 
 export default api;
