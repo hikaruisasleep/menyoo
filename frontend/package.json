@@ -36,6 +36,6 @@
 		"dotenv": "^16.0.3",
 		"http": "^0.0.1-security",
 		"jsonwebtoken": "^9.0.0",
-		"mongoose": "^7.1.0"
+		"mongoose": "^7.5.0"
 	}
 }
